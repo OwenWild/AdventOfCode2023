@@ -5,10 +5,15 @@
 #include"analyzer.h"
 
 
-using namespace std;
+using std::ifstream;
+using std::vector;
+using std::string;
+using std::endl;
+
 
 
 int main(){
+    int sum = 0;
 
     ifstream file;
     file.open("input2.txt");
@@ -17,12 +22,14 @@ int main(){
     string result;
     int line = 0;
     while(getline(file, result)){
-        cout<<"new line \n"<< result;
+
+        vect.push_back(result);
     }
-    int sum = 0;
-    for(int i = 1; i<vect.size(); i++){
-        cout<<i<<"is this one"<<vect[i]<<endl;
+
+    for(int i = 0; i<vect.size(); i++){
+
         sum += analyzer(vect[i]);
+        cout<<sum;
     }
 
     std::cout<<"final sum is " <<sum;

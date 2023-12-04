@@ -18,6 +18,9 @@ int main(){
     while(getline(file, result)){
         vect.push_back(result);
     }
+    for(int i = 0; i<vect.size(); i++){
+        cout<<vect[i]<<endl;
+    }
     // Now we have a vector with a 140 strings in it, and we need to use
     // all of those, to create a vector with all the symbol coords in it. 
 
@@ -32,10 +35,10 @@ int main(){
 
         char q = x[0];
 
-        if(q == '$' || q== '+' || q=='*'||q=='#'||q == '=' || q=='-'||q=='&'||q=='/'||q=='@'||q=='%'){
+        if(q != '.' && (q!= '0'&&q!= '1'&&q!= '2'&&q!= '3'&&q!= '4'&&q!= '5'&&q!= '6'&&q!= '7'&&q!= '8'&&q!= '9')){
             coord c = coord(p, i);
             symbolVect.push_back(c);
-            cout<<q<<endl;
+
         }
 
         }
@@ -44,8 +47,9 @@ int main(){
     vector<number> numVect;
     for(int i = 0; i<vect.size();i++){
         string x = vect[i];
-        for(int p = 0; p<vect[i].length(); p++){
-            
+        for(int p = 0; p<x.length()-1; p++){
+            // I is the Y value, and the line number
+            // P is the x value,
             try{
 
             if(stoi(x.substr(p, 1))<10){
@@ -54,35 +58,40 @@ int main(){
                     try{
                     if(stoi(x.substr(p+2,1))<10){
                         // Right here is if there are 3 numbers in a row
-                        coord coord1 = coord(i, p);
-                        coord coord2 = coord(i, p+1);
-                        coord coord3 = coord(i, p+2);
+                        coord coord1 = coord(p, i);
+                        coord coord2 = coord(p+1, i);
+                        coord coord3 = coord(p+2, i);
                         number n = number(coord1, coord2, coord3, stoi(x.substr(p,3)), 3, 0);
                         numVect.push_back(n);
-                        cout<<"\n FOUND NUMBER: \n"<<x.substr(p,3)<<"\n \n "<<endl;
+
 
 
 
                             // this needs to be at the end
-                           p++;
+                        p++;
                         p++;
 
                     }
 
                     }
                     catch(exception e){
-                        coord coord1 = coord(i, p);
-                        coord coord2 = coord(i, p+1);
-                        coord coord3 = coord(i, p+1);
-                        number n = number(coord1, coord2, coord3, stoi(x.substr(p,3)), 3, 0);
+                        coord coord1 = coord(p, i);
+                        coord coord2 = coord(p+1, i);
+                        coord coord3 = coord(p+1, i);
+                        number n = number(coord1, coord2, coord3, stoi(x.substr(p,2)), 2, 0);
                         numVect.push_back(n);
-                        cout<<"\n FOUND NUMBER: \n"<<x.substr(p,3)<<"\n \n" <<endl;
+
                         p++;
                     }
                 }
                 }
                 catch(exception e){
-                    cout<<"This is weird..."<<endl;
+                    coord coord1 = coord(p, i);
+                        coord coord2 = coord(p, i);
+                        coord coord3 = coord(p, i);
+                        number n = number(coord1, coord2, coord3, stoi(x.substr(p,2)), 2, 0);
+                        numVect.push_back(n);
+                    cout<<"This is weird..."<<numVect[i].getCoord1().getX()<<". "<<numVect[i].getCoord1().getY()<<" value of :: "<<numVect[i].getNumVal()<<endl;
                 }
             }
             }
@@ -97,33 +106,44 @@ int main(){
 
         for(int p = 0; p<symbolVect.size(); p++){
 
-                cout<<"Here is number:  \n"<<p<<i<<endl;
+
             if(numChecker(symbolVect[p], numVect[i])==1){
 
 
             numVect[i].setSymbol(numChecker(symbolVect[p], numVect[i]));
+            
             
             }
             
         }
     }
     cout<<"this";
-
+    vector<int> nearValues;
     for(int i = 0; i<numVect.size(); i++){
             cout<<numVect[i].getSymbolNear();
 
         if(numVect[i].isSymbolNear()){
             sum += numVect[i].getNumVal();
-            cout<<"\n Here is the number" <<numVect[i].getNumVal()<<" \n ";
+
+            nearValues.push_back(numVect[i].getNumVal());       
         }
+        
+        if(!numVect[i].isSymbolNear()){
+}
     }
+    vectPrint(symbolVect);
+    coord aoeu = coord(121, 55);
+    coord aoeup2 = coord(120, 55);
+    coord aoeup3 = coord(121, 56);
+    number aoeu2 = number(aoeup2, aoeup3, aoeup3, 450, 3, 0);
+    int x = numChecker(aoeu, aoeu2);
     // Great, now we have all the numbers in vectors, but only the 3 digit ones, finish with adding the 2 digit ones too...
 
     // Now we have the 2 digit ones as well, in the vectors
     // Now we need to find a way to check the coordinates against eachother, to see if they 
     // are 'part numbers'
-
-
+    vectPrint(nearValues);
+cout<<x;
     cout<<"Final sum : "<<sum;
 
 

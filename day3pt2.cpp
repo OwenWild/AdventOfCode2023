@@ -2,7 +2,7 @@
 #include<string>
 #include<vector>
 
-#include"func.cpp"
+#include"func2.cpp"
 #include<fstream>
 
 using namespace std;
@@ -26,7 +26,7 @@ int main(){
 
 
     vector<coord> symbolVect;
-
+int ech = 0;
     int sum = 0;
     for(int i = 0; i<vect.size();i++){
         for(int p = 0; p<vect[i].length(); p++){
@@ -34,11 +34,11 @@ int main(){
         string x = vect[i].substr(p,1);
 
         char q = x[0];
-
-        if(q != '.' && (q!= '0'&&q!= '1'&&q!= '2'&&q!= '3'&&q!= '4'&&q!= '5'&&q!= '6'&&q!= '7'&&q!= '8'&&q!= '9')){
-            coord c = coord(p, i);
+        
+        if(q == '*'){
+            coord c = coord(p, i, ech);
             symbolVect.push_back(c);
-
+            ech++;
         }
 
         }
@@ -100,17 +100,17 @@ int main(){
             }
         }
     }
-    vectPrint(numVect);
+
 
     for(int i = 0; i<numVect.size(); i++){
 
         for(int p = 0; p<symbolVect.size(); p++){
 
 
-            if(numChecker(symbolVect[p], numVect[i])==1){
+            if(numChecker(symbolVect[p], numVect[i]).getnumcheckerbool() ==0){
+                cout<<"ONEICRGDLORECGDILROECDILRCD \n\n"<<endl;
 
-
-            numVect[i].setSymbol(numChecker(symbolVect[p], numVect[i]));
+                numVect[i].setSymbol(numChecker(symbolVect[p], numVect[i]).getnumcheckerbool());
             
             
             }
@@ -119,6 +119,7 @@ int main(){
     }
     cout<<"this";
     vector<int> nearValues;
+    // This is getting all the symbls near
     // This is the final function, checking the set value (0 or 1) for if a coord has a near symbol
     for(int i = 0; i<numVect.size(); i++){
             cout<<numVect[i].getSymbolNear();
@@ -132,19 +133,20 @@ int main(){
         if(!numVect[i].isSymbolNear()){
 }
     }
-    vectPrint(symbolVect);
+
     coord aoeu = coord(121, 55);
     coord aoeup2 = coord(120, 55);
     coord aoeup3 = coord(121, 56);
     number aoeu2 = number(aoeup2, aoeup3, aoeup3, 450, 3, 0);
-    int x = numChecker(aoeu, aoeu2);
+    ball blue = numChecker(aoeu, aoeu2);
+    cout<<blue.getBallCoord()<<" > "<<blue.getnumcheckerbool()<<endl;
     // Great, now we have all the numbers in vectors, but only the 3 digit ones, finish with adding the 2 digit ones too...
 
     // Now we have the 2 digit ones as well, in the vectors
     // Now we need to find a way to check the coordinates against eachother, to see if they 
     // are 'part numbers'
-    vectPrint(nearValues);
-cout<<x;
+
+
     cout<<"Final sum : "<<sum;
 
 

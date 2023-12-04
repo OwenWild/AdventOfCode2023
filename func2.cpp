@@ -21,20 +21,20 @@ int isNear(string x){
 
 class coord {
     public: 
-    coord(int one, int two, int coordNumber){
+    coord(int one, int two, int three){
         x = one;
         y = two;
-        coordNumber = coordNumber;
+        coordNum = three;
     }
     coord(int one, int two){
         x = one;
         y = two;
-        coordNumber = 0;
+        coordNum = 0;
     }
     coord(){
         x = 0;
         y = 0;
-        coordNumber = 0;
+        coordNum = 0;
     }
     int getX(){
         return x;
@@ -43,22 +43,22 @@ class coord {
     int getY(){
         return y;
     }
-    int getCoordNumber(){
-        return coordNumber;
-    }
-    void addCoordNum(int x){
-        coordNumber = x;
+    
+    int getCoord(){
+        return coordNum;
     }
 
-    int coordNumber;
     
     
     
-
+    
     private: 
+    int coordNum;
     int x;
     int y;
 };
+
+
 
 
 
@@ -68,7 +68,7 @@ class number{
         coord1 = coord(coordFirst.getX(), coordFirst.getY());
         coord2 = coord(coordSecond.getX(), coordSecond.getY());
         coord3 = coord(coordSecond.getX(), coordSecond.getY());
-        length = length;
+        this->length = length;
         numValue = number;
         symbolNear = sNear;
     }
@@ -76,9 +76,13 @@ class number{
         coord1 = coord(coordFirst.getX(), coordFirst.getY());
         coord2 = coord(coordSecond.getX(), coordSecond.getY());
         coord3 = coord(coordThird.getX(), coordThird.getY());
-        length = length;
+        this->length = length;
         numValue = number;
         symbolNear = sNear;
+    }
+    int checkedSymbolNumber;
+    void setCheckedSymbolNumber(int x){
+        checkedSymbolNumber = x;
     }
     coord getCoord1(){
         return coord1;
@@ -104,6 +108,10 @@ class number{
     int getSymbolNear(){
         return symbolNear;
     }
+    int getCheckedSymbolNumber(){
+        return checkedSymbolNumber;
+    }
+    
     private:
     int length;
     coord coord1;
@@ -121,39 +129,18 @@ void vectPrint(vector<int> x){
 };
 void vectPrint(vector<coord> x){
     for(int i = 0; i< x.size(); i++){
-        cout<<"X coord :" << x[i].getX()<<"Y coord: "<<x[i].getY()<<endl;
+        cout<<"X coord :" << x[i].getX()<<"Y coord: "<<x[i].getY()<<"coord number: " << x[i].getCoord()<<endl;
     }
 };
 
 void vectPrint(vector<number> x){
     for(int i = 0; i<x.size()-300; i++){
-        cout<<"X coord 1: "<<x[i].getCoord1().getX()<<" Y coord : " <<x[i].getCoord1().getY()<<" Value: "<<x[i].getNumVal()<<endl;
+        cout<<"X coord 1: "<<x[i].getCoord1().getX()<<" Y coord : " <<x[i].getCoord1().getY()<<" Value: "<<x[i].getNumVal()<< "checked by: "<<x[i].getCheckedSymbolNumber()<<endl;
 
     }
 };
-class ball{
-    public: 
-    // The ball is what is returned, it returns the vectors that are checked that match, 
-    // and it returns it with which coord it matched with
-    ball(int numCheckerVal, int coordCheckedWith){
-        numCheckerVal = numCheckerVal;
-        coordCheckedWith = coordCheckedWith;
 
-    }
-    int getBallCoord(){
-        return coordCheckedWith;
-
-    }
-    int getnumcheckerbool(){
-        return numCheckerVal;
-    }
-
-    private: 
-    int numCheckerVal;
-    int coordCheckedWith;
-};
-
-ball numChecker(coord x, number y){
+int numChecker(coord x, number y){
     int xCoord = x.getX();
     int yCoord = x.getY();
 
@@ -175,33 +162,38 @@ ball numChecker(coord x, number y){
         If it is next to, y coords must be equal, and x is 1 off
     
     */
-   int ballNumCheck = 0;
+
    // for to the left or right: 
+    int pp = x.getCoord();
    if(yCoord == yCoordCheck1){ // Ify the y coords are the smame...
         if(xCoord +1 == xCoordCheck1){ // Here, if theres a symbol to the left
-            ballNumCheck = 1;
-
+            return pp;
         }
         if(xCoord -1 == xCoordCheck3 ){ // here to the right
-            ballNumCheck = 1;
-
+            return pp;
         }
         
    }
    // NEXT part, above or below:
    if((xCoord == xCoordCheck1 || xCoord == xCoordCheck2 || xCoord == xCoordCheck3 || xCoord == xCoordCheck1 -1 || xCoord == xCoordCheck3 + 1)){
         if(yCoord -1== yCoordCheck1){
-            ballNumCheck = 1;
-
+            return pp;
         }
         if(yCoord +1 == yCoordCheck1){
-            ballNumCheck =  1;
+            return pp;
 
         }
     // this checks diags and above and below
    }
-    
-    ball black = ball(ballNumCheck, x.getCoordNumber());
-    return black;
 
+    return 0;
+};
+
+
+bool compareCoordByNum( coord a, coord b) {
+    return a.getCoord() < b.getCoord();
+};
+
+bool compareNumberByCheckedSymbolNumber(number a, number b) {
+    return a.getCheckedSymbolNumber() < b.getCheckedSymbolNumber();
 };

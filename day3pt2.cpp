@@ -26,19 +26,22 @@ int main(){
 
 
     vector<coord> symbolVect;
-int ech = 0;
+
     int sum = 0;
+    int coordNumber = 1;
     for(int i = 0; i<vect.size();i++){
         for(int p = 0; p<vect[i].length(); p++){
 
         string x = vect[i].substr(p,1);
 
         char q = x[0];
-        
-        if(q == '*'){
-            coord c = coord(p, i, ech);
+
+        if(q =='*'){
+            coord c = coord(p, i, coordNumber);
             symbolVect.push_back(c);
-            ech++;
+            coordNumber++;
+            
+
         }
 
         }
@@ -107,11 +110,12 @@ int ech = 0;
         for(int p = 0; p<symbolVect.size(); p++){
 
 
-            if(numChecker(symbolVect[p], numVect[i]).getnumcheckerbool() ==0){
-                cout<<"ONEICRGDLORECGDILROECDILRCD \n\n"<<endl;
+            if(numChecker(symbolVect[p], numVect[i])!=0){
 
-                numVect[i].setSymbol(numChecker(symbolVect[p], numVect[i]).getnumcheckerbool());
-            
+
+            numVect[i].setSymbol(numChecker(symbolVect[p], numVect[i]));
+            cout<<numChecker(symbolVect[p], numVect[i])<<"Amogus"<<endl;
+            numVect[i].setCheckedSymbolNumber(numChecker(symbolVect[p],numVect[i]));
             
             }
             
@@ -119,15 +123,17 @@ int ech = 0;
     }
     cout<<"this";
     vector<int> nearValues;
-    // This is getting all the symbls near
     // This is the final function, checking the set value (0 or 1) for if a coord has a near symbol
+    // It adds to the sum, and also prints the near values so you can manually check them;
+
     for(int i = 0; i<numVect.size(); i++){
             cout<<numVect[i].getSymbolNear();
 
-        if(numVect[i].isSymbolNear()){
-            sum += numVect[i].getNumVal();
+        if(numVect[i].isSymbolNear()!=0){
 
-            nearValues.push_back(numVect[i].getNumVal());       
+
+            nearValues.push_back(numVect[i].getNumVal());   
+
         }
         
         if(!numVect[i].isSymbolNear()){
@@ -138,22 +144,33 @@ int ech = 0;
     coord aoeup2 = coord(120, 55);
     coord aoeup3 = coord(121, 56);
     number aoeu2 = number(aoeup2, aoeup3, aoeup3, 450, 3, 0);
-    ball blue = numChecker(aoeu, aoeu2);
-    cout<<blue.getBallCoord()<<" > "<<blue.getnumcheckerbool()<<endl;
+    int x = numChecker(aoeu, aoeu2);
     // Great, now we have all the numbers in vectors, but only the 3 digit ones, finish with adding the 2 digit ones too...
 
     // Now we have the 2 digit ones as well, in the vectors
     // Now we need to find a way to check the coordinates against eachother, to see if they 
     // are 'part numbers'
 
-
+cout<<x;
     cout<<"Final sum : "<<sum;
 
+    
 
+    // for(int i = 0; i<numVect.size(); i++){
+    //     for(int p = i+1; p<numVect.size(); p++){
+    //         if((numVect[p].getcheckedSymbolNumber() == numVect[i].getcheckedSymbolNumber()) && p!=i){
+    //            // cout<<i<<" p: "<<p<<" checked by values: " << numVect[p].getcheckedSymbolNumber()<<" . "<<numVect[i].getcheckedSymbolNumber()<<endl;
+    //             sum += (numVect[p].getNumVal() * numVect[i].getNumVal());
+    //             cout<<"Num 1 "<<numVect[p].getcheckedSymbolNumber() << " num2 " <<numVect[i].getcheckedSymbolNumber() << " sum : " <<sum;
+    //         }
+    //     }
+    // }
 
+    std::sort(numVect.begin(), numVect.end(), compareNumberByCheckedSymbolNumber);
 
+    
 
-
+    cout<<"Final sum:  "<<sum;
 
    // the thing is 140 by 140 
    // Could I store everything as coordinates?
